@@ -2,9 +2,6 @@ body{
   background-color: #F3F3F3;
   position: relative;
   margin: 0px auto;
-  border: 1px solid orange;
-  /* width:350px; */
-  /* height:auto; */
 }
 *{
   font-family:courier;
@@ -12,7 +9,6 @@ body{
 #content{
     width: 350px;margin: 0 auto;
     border-radius: 3px;
-    overflow: hidden;
 
 }
 .smlb {
@@ -57,7 +53,7 @@ body{
   margin-top: 34%;
 }
 #detail{
-   margin-top: 31px;text-align: center;background-color: #2EBEB7;
+	text-align: center;background-color: #09bb07;border-radius:5px 5px 0 0 ;
 }
 #oTime{
   color: white ;text-align: center;
@@ -89,7 +85,7 @@ body{
 /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
 select::-ms-expand { display: none; }
 .ch{
-  background-color:#2EBEB7;
+  background-color:#09bb07;
 }
 .day td{
   width:57px;color:white; text-align:center;
@@ -117,4 +113,8 @@ div.tishishgen0{
 
 div.shenbox {
     margin-top: 20px;
+}
+.bottom{
+	background-color:#ccc;
+	border-radius:0 0 5px 5px;
 }

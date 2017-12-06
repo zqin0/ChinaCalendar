@@ -1,4 +1,5 @@
-var lunarInfo=new Array(//阴历数据
+//阴历数据
+var lunarInfo=new Array(
 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
 0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
 0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
@@ -40,7 +41,6 @@ var solar_fes = new Array(
 "0801 建军节",
 "0910 教师节",
 "1001*国庆节",
-"1024 联合国日",
 "1220 澳门回归纪念",
 "1225 圣诞节")
 
@@ -51,7 +51,7 @@ var lunar_fes = new Array(
 "0505 端午节",
 "0707 七夕情人节",
 "0715 中元节",
-"0815 中秋节",
+"0815*中秋节",
 "0909 重阳节",
 "1208 腊八节",
 "1223 小年",
@@ -310,11 +310,11 @@ function cal_d(d){
 function isLeg(fes, y){
    y = y - 0;
    switch(fes){
-      case "元旦":
+      case "新年":
          if(y>1911 && y<1950){
 
          }else if(y>1949){
-            fes = "新年";
+            fes = "元旦";
          }else{
             fes = "";
          }
@@ -356,9 +356,6 @@ function isLeg(fes, y){
       case "国庆节":
          if(y<1949) fes = "";
          break;
-      case "联合国日":
-         if(y<1945) fes = "";
-         break;
       case "澳门回归纪念":
          if(y<1999) fes = "";
          break;
@@ -373,7 +370,7 @@ var cld;
 function setCld(SY,SM) {
    var i,sD,s,size;
    cld = new calendar(SY,SM);
-
+      //通过年份 - 4 除于 12 取余计算农历生肖
     animal_year.innerHTML = '<span class="smlb">'+Animals[(SY-4)%12]+'</span>';
 
 
@@ -437,8 +434,8 @@ function setCld(SY,SM) {
 
 function chaCld() {
    var y,m;
-   y=calender_content.SY.selectedIndex+1900;
-   m=calender_content.SM.selectedIndex;
+   y=calender_content.SY.selectedIndex+1900;//根据select元素索引 加1900 获取年份
+   m=calender_content.SM.selectedIndex;//根据select元素索引获取月份
    setCld(y,m);
 
 }
