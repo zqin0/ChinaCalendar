@@ -1,0 +1,16 @@
+{
+    "name":"ChinaCalendar",
+    "version":"2",
+    "manifest_version":2,
+    "description":"中国农历日历",
+    "icons":{
+        "48":"./icons/date(2).png",
+        "64":"./icons/date(2).png"
+    },
+    "content_scripts":[
+        {
+            "matches":["http://*/*"],
+            "js":["js/main.js"]
+        }
+    ]
+}
