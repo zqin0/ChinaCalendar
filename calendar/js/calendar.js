@@ -372,7 +372,7 @@ function setCld(SY,SM) {
    cld = new calendar(SY,SM);
       //通过年份 - 4 除于 12 取余计算农历生肖
     animal_year.innerHTML = '<span class="smlb">'+Animals[(SY-4)%12]+'</span>';
-      
+
 
    for(i=0;i<42;i++) {
 
@@ -479,7 +479,7 @@ function addDay(v) {
                  '</tr></table>';//节假日与24节气
          
          day_detal= 
-                  '<table class="detallu"><tr><td>' +'<table><tr><td><span style="color:#0036ff">'+ cld[d].sy+'-'+cld[d].s_m+'-'+cld[d].s_d+' 星期'+cld[d].week+'<br>'+
+                  '<table class="detallu"><tr><td>' +'<table><tr><td><span style="color:#0036ff">'+ cld[d].sy+'-'+cld[d].s_m+'-'+cld[d].s_d+' 星期'+cld[d].week+'<br>'+//获取所选日期与星期
                   '<p style="font-family:courier;font-size: 54px;margin-right: -215%;margin-bottom: 52%;">'+cld[d].s_d+'</p>'+//当前所选日期
                   '<span style=" float: right;margin-top: -86%;font-size: 13px;color:#ff0">'+ fes +'农历'+(cld[d].isLeap?'闰 ':' ')+cld[d].l_m+' 月 '+cld[d].l_d+' 日</span><br>'+//农历纪年
                   '<span style="float: right;margin-top: -71%;font-size: 13px;color:red;">'+cld[d].c_y+'年 '+cld[d].c_m+'月 '+cld[d].cal_d + '日</span>'//天干地支纪年
