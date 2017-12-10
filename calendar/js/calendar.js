@@ -478,17 +478,19 @@ function addDay(v) {
    if(solar_obj.innerHTML!='') {
      
       solar_obj.style.cursor = 'pointer';
-      fes = '<table><tr><td>'+'<span><b>'+cld[d].solarTerms + ' ' + cld[d].solar_festival + ' ' + cld[d].lunar_festival+'</b></span></td>'+
-                 '</tr></table>';
-         
+      fes = '<table><tr><td>'+'<span style="color:#0f0;"><b>'+cld[d].solarTerms + ' ' + cld[d].solar_festival + ' ' + cld[d].lunar_festival+'</b></span></td>'+
+                 '</tr></table>';//节假日与24节气
+         //console.log("fes=" + cld[d].solarTerms + "-" + cld[d].solar_festival+"-"+cld[d].lunar_festival);
          day_detal= 
                   '<table class="detallu"><tr><td>' +'<table><tr><td><span>'+ cld[d].sy+'-'+cld[d].s_m+'-'+cld[d].s_d+' 星期'+cld[d].week+'<br>'+
-                  '<p style="font-family:courier;font-size: 54px;margin-right: -215%;margin-bottom: 52%;">'+cld[d].s_d+'</p>'+
-                  '<span style=" float: right;margin-top: -86%;font-size: 13px;">'+ fes +'农历'+(cld[d].isLeap?'闰 ':' ')+cld[d].l_m+' 月 '+cld[d].l_d+' 日</span><br>'+
-                  '<span style="float: right;margin-top: -71%;font-size: 13px;">'+cld[d].c_y+'年 '+cld[d].c_m+'月 '+cld[d].cal_d + '日</span>'
+                  '<p style="font-family:courier;font-size: 54px;margin-right: -215%;margin-bottom: 52%;color:#ff0">'+cld[d].s_d+'</p>'+//当天日期
+                  '<span style=" float: right;margin-top: -86%;font-size: 13px;">'+ fes +'农历'+(cld[d].isLeap?'闰 ':' ')+cld[d].l_m+' 月 '+cld[d].l_d+' 日</span><br>'+//农历纪年
+                  '<span style="float: right;margin-top: -71%;font-size: 13px;color:#f00">'+cld[d].c_y+'年 '+cld[d].c_m+'月 '+cld[d].cal_d + '日</span>'//天干地支纪年
                   '</td></tr></table>';
              
-
+         console.log("所选天数 = " + cld[d].s_d);
+         console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d +"日");
+         console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d +"日");
       date_content.innerHTML = day_detal;
 
 
