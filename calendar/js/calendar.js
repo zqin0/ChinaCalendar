@@ -16,14 +16,18 @@ var lunarInfo = new Array(//阴历数据
       0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0)
 
 var solar_month = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-var day_gan = new Array("甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸");
-var day_zhi = new Array("子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥");
-var Animals = new Array("鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪");
+// 天干数组
+var TianGan = new Array("甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸");
+// 地支数组
+var DiZhi = new Array("子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥");
+// 生肖数组
+var ShengXiao = new Array("鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪");
 var solar_term = new Array("小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至")
 //计算某年的第n个节气公历日期所需要的基础数据（类似于每月的多少天）
 var sterm_info = new Array(0, 21208, 42467, 63836, 85337, 107014, 128867, 150921, 173149, 195551, 218072, 240693, 263343, 285989, 308563, 331033, 353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758)
-var n_str1 = new Array('日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十')
-var n_str2 = new Array('初', '十', '廿', '卅', '　')
+// 定义全局数组 chineseDate与chineseDate用于保存农历日期
+var chineseNum = new Array('日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十')
+var chineseDate = new Array('初', '十', '廿', '卅', '　')
 
 //国历节日 *表示放假日
 var solar_fes = new Array(
@@ -47,11 +51,11 @@ var solar_fes = new Array(
 //农历节日 *表示放假日
 var lunar_fes = new Array(
       "0101*春节",
-      "0115 元宵节",
-      "0505 端午节",
+      "0115 *元宵节",
+      "0505 *端午节",
       "0707 七夕情人节",
       "0715 中元节",
-      "0815 中秋节",
+      "0815 *中秋节",
       "0909 重阳节",
       "1208 腊八节",
       "1223 小年",
@@ -103,8 +107,9 @@ var dStyle;
 
 function lunar_day(y) {
       var i, sum = 348
-      for (i = 0x8000; i > 0x8; i >>= 1) sum += (lunarInfo[y - 1900] & i) ? 1 : 0
-      return (sum + lunar_leap(y))
+      for (i = 0x8000; i > 0x8; i >>= 1) {sum += (lunarInfo[y - 1900] & i) ? 1 : 0}
+      // console.log(sum + lunar_leap(y));
+      return (sum + lunar_leap(y));
 }
 
 //返回农历第y年闰月的天数
@@ -173,17 +178,17 @@ function Lunar(objDate) {
       this.month = i
       this.day = offset + 1
 }
-
-function solar_day(y, m) {
-      if (m == 1)
-            return (((y % 4 == 0) && (y % 100 != 0) || (y % 400 == 0)) ? 29 : 28)
+// 计算公历y年m月的天数
+function solar_day(year, month) {
+      if (month == 1)//如果是2月的话闰年29天,平年28天,闰年计算方法,能被4整除,但不能被100整除,或者能被400整除
+            return (((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) ? 29 : 28)
       else
-            return (solar_month[m])
+            return (solar_month[month])
 }
 
 //传入offset 传回干支，0=甲子
 function cyclical(num) {
-      return (day_gan[num % 10] + day_zhi[num % 12])
+      return (TianGan[num % 10] + DiZhi[num % 12])
 }
 
 function cal_ele(sy, s_m, s_d, week, lYear, l_m, l_d, isLeap, c_y, c_m, cal_d) {
@@ -214,94 +219,88 @@ function sTerm(y, n) {
       return (off_date.getUTCDate())
 }
 
-function calendar(y, m) {
-      var lunar_dpos = new Array(3)
-      var solor_dobj, lunar_dobj, lY, lM, lD = 1, lL, lX = 0, t_1, t_2
-
-      var n = 0, first_lunarm = 0
-
-      solor_dobj = new Date(y, m, 1)
-
-      this.length = solar_day(y, m)
-      this.firstWeek = solor_dobj.getDay()
-
-
-      for (var i = 0; i < this.length; i++) {
-
-            if (lD > lX) {
-                  solor_dobj = new Date(y, m, i + 1)
-                  lunar_dobj = new Lunar(solor_dobj)
-                  lY = lunar_dobj.year
-                  lM = lunar_dobj.month
-                  lD = lunar_dobj.day
-                  lL = lunar_dobj.isLeap
-                  lX = lL ? lunar_leap(lY) : lunar_leap_d(lY, lM)
-
-                  if (n == 0) first_lunarm = lM
-                  lunar_dpos[n++] = i - lD + 1
-            }
-
-            this[i] = new cal_ele(y, m + 1, i + 1, n_str1[(i + this.firstWeek) % 7],
-                  lY, lM, lD++, lL,
-                  cyclical(lunar_dobj.yearCyl), cyclical(lunar_dobj.monCyl), cyclical(lunar_dobj.dayCyl++))
-
-
-            if ((i + this.firstWeek) % 7 == 0) this[i].color = '#FF5F07'
-            if ((i + this.firstWeek) % 14 == 13) this[i].color = '#FF5F07'
-      }
-
-      t_1 = sTerm(y, m * 2) - 1
-      t_2 = sTerm(y, m * 2 + 1) - 1
-      this[t_1].solarTerms = solar_term[m * 2]
-      this[t_2].solarTerms = solar_term[m * 2 + 1]
-      if (m == 3) this[t_1].color = '#FF5F07'
-
-
-
-      for (i in w_fes)
-            if (w_fes[i].match(/^(\d{2})(\d)(\d)([\s\*])(.+)$/))
-                  if (Number(RegExp.$1) == (m + 1)) {
-                        t_1 = Number(RegExp.$2)
-                        t_2 = Number(RegExp.$3)
-                        this[((this.firstWeek > t_2) ? 7 : 0) + 7 * (t_1 - 1) + t_2 - this.firstWeek].solar_festival += RegExp.$5 + ' '
+class calendar {
+      constructor(y, m) {
+            var lunar_dpos = new Array(3);
+            var solor_dobj, lunar_dobj, lY, lM, lD = 1, lL, lX = 0, t_1, t_2;
+            var n = 0, first_lunarm = 0;
+            solor_dobj = new Date(y, m, 1);
+            this.length = solar_day(y, m);
+            this.firstWeek = solor_dobj.getDay();
+            for (var i = 0; i < this.length; i++) {
+                  if (lD > lX) {
+                        solor_dobj = new Date(y, m, i + 1);
+                        lunar_dobj = new Lunar(solor_dobj);
+                        lY = lunar_dobj.year;
+                        lM = lunar_dobj.month;
+                        lD = lunar_dobj.day;
+                        lL = lunar_dobj.isLeap;
+                        lX = lL ? lunar_leap(lY) : lunar_leap_d(lY, lM);
+                        if (n == 0)
+                              first_lunarm = lM;
+                        lunar_dpos[n++] = i - lD + 1;
                   }
-
-      for (i in lunar_fes)
-            if (lunar_fes[i].match(/^(\d{2})(.{2})([\s\*])(.+)$/)) {
-                  t_1 = Number(RegExp.$1) - first_lunarm
-                  if (t_1 == -11) t_1 = 1
-                  if (t_1 >= 0 && t_1 < n) {
-                        t_2 = lunar_dpos[t_1] + Number(RegExp.$2) - 1
-                        if (t_2 >= 0 && t_2 < this.length) {
-                              this[t_2].lunar_festival += RegExp.$4 + ' '
-                              if (RegExp.$3 == '*') this[t_2].color = '#FF5F07'
+                  this[i] = new cal_ele(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, cyclical(lunar_dobj.yearCyl), cyclical(lunar_dobj.monCyl), cyclical(lunar_dobj.dayCyl++));
+                  if ((i + this.firstWeek) % 7 == 0)
+                        this[i].color = '#FF5F07';
+                  if ((i + this.firstWeek) % 14 == 13)
+                        this[i].color = '#FF5F07';
+            }
+            t_1 = sTerm(y, m * 2) - 1;
+            t_2 = sTerm(y, m * 2 + 1) - 1;
+            this[t_1].solarTerms = solar_term[m * 2];
+            this[t_2].solarTerms = solar_term[m * 2 + 1];
+            if (m == 3)
+                  this[t_1].color = '#FF5F07';
+            for (i in w_fes)
+                  if (w_fes[i].match(/^(\d{2})(\d)(\d)([\s\*])(.+)$/))
+                        if (Number(RegExp.$1) == (m + 1)) {
+                              t_1 = Number(RegExp.$2);
+                              t_2 = Number(RegExp.$3);
+                              this[((this.firstWeek > t_2) ? 7 : 0) + 7 * (t_1 - 1) + t_2 - this.firstWeek].solar_festival += RegExp.$5 + ' ';
+                        }
+            for (i in lunar_fes)
+                  if (lunar_fes[i].match(/^(\d{2})(.{2})([\s\*])(.+)$/)) {
+                        t_1 = Number(RegExp.$1) - first_lunarm;
+                        if (t_1 == -11)
+                              t_1 = 1;
+                        if (t_1 >= 0 && t_1 < n) {
+                              t_2 = lunar_dpos[t_1] + Number(RegExp.$2) - 1;
+                              if (t_2 >= 0 && t_2 < this.length) {
+                                    this[t_2].lunar_festival += RegExp.$4 + ' ';
+                                    if (RegExp.$3 == '*')
+                                          this[t_2].color = '#FF5F07';
+                              }
                         }
                   }
+            for (i in solar_fes)
+                  if (solar_fes[i].match(/^(\d{2})(\d{2})([\s\*])(.+)$/))
+                        if (Number(RegExp.$1) == (m + 1)) {
+                              var fes = isHoliday(RegExp.$4, y);
+                              if (fes == "")
+                                    continue;
+                              this[Number(RegExp.$2) - 1].solar_festival += fes + ' ';
+                              if (RegExp.$3 == '*')
+                                    this[Number(RegExp.$2) - 1].color = '#FF5F07';
+                        }
+            if (y == tY && m == tM) {
+                  this[tD - 1].istoday = true;
             }
-      for (i in solar_fes)
-            if (solar_fes[i].match(/^(\d{2})(\d{2})([\s\*])(.+)$/))
-                  if (Number(RegExp.$1) == (m + 1)) {
-                        var fes = isHoliday(RegExp.$4, y);
-                        if (fes == "") continue;
-                        this[Number(RegExp.$2) - 1].solar_festival += fes + ' '
-                        if (RegExp.$3 == '*') this[Number(RegExp.$2) - 1].color = '#FF5F07'
-                  }
-
-
-      if (y == tY && m == tM) {
-            this[tD - 1].istoday = true;
-
       }
-
 }
-
-function cal_d(d) {
-      var s0;
-      if (d == 10) { s0 = '初十'; }
-      else if (d == 20) { s0 = '二十'; }
-      else if (d == 30) { s0 = '三十'; }
-      else { s0 = n_str2[Math.floor(d / 10)]; s0 += n_str1[d % 10]; }
-      return (s0);
+// 函数名getChineseDay计算农历日期
+// 参数day:公历日期
+// 使用了全局数组chineseDate与chineseNum
+function getChineseDay(day) {
+      // 农历日期
+      var chineseDay;
+      if (day == 10) { chineseDay = '初十'; }
+      else if (day == 20) { chineseDay = '二十'; }
+      else if (day == 30) { chineseDay = '三十'; }
+      else { chineseDay = chineseDate[Math.floor(day / 10)]; chineseDay += chineseNum[day % 10]; }
+      //利用天数除于10取整加上天数除于10取余,计算出农历天数
+      //例如26号:26/10 = 2 即chineseDate[1]="廿" 26 % 10 = 6 即 chieseNum[6]="六" 合起来就是"廿六"
+      return (chineseDay);
 }
 /*
 *函数名:判断是否是节日,返回当月包含的节日
@@ -396,12 +395,12 @@ var cld;
 */
 function setCld(SY, SM) {
       var i, sD, s, size;
-      console.log(SY,SM);
+      // console.log(SY,SM);
       cld = new calendar(SY, SM);
 
-      //     animal_year.innerHTML = '<span class="smlb">'+Animals[(SY-4)%12]+'</span>';//设置生肖
+      animal_year.innerHTML = '<span class="smlb">'+ShengXiao[(SY-4)%12]+'</span>';//设置生肖
 
-      console.log(cld);
+      // console.log(cld);
       for (i = 0; i < 42; i++) {
 
             solar_obj = eval('SD' + i);
@@ -429,7 +428,7 @@ function setCld(SY, SM) {
                   if (cld[sD].l_d == 1)
                         lunar_obj.innerHTML = '<b>' + (cld[sD].isLeap ? '闰' : '') + cld[sD].l_m + '月' + (lunar_leap_d(cld[sD].lYear, cld[sD].l_m) == 29 ? '小' : '大') + '</b>';
                   else
-                        lunar_obj.innerHTML = cal_d(cld[sD].l_d);
+                        lunar_obj.innerHTML = getChineseDay(cld[sD].l_d);
 
                   s = cld[sD].lunar_festival;
                   if (s.length > 0) {
@@ -517,9 +516,9 @@ function addDay(v) {
                   '<span style="float: right;margin-top: -71%;font-size: 13px;color:#f00">' + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + '日</span>'//天干地支纪年
             '</td></tr></table>';
 
-            console.log("所选天数 = " + cld[d].s_d);
-            console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + "日");
-            console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + "日");
+            // console.log("所选天数 = " + cld[d].s_d);
+            // console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + "日");
+            // console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + "日");
             date_content.innerHTML = day_detal;
       }
 }
