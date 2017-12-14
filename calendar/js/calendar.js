@@ -304,7 +304,7 @@ function cal_d(d) {
       return (s0);
 }
 /*
-*函数名:返回节日信息
+*函数名:判断是否是节日,返回当月包含的节日
 *参数fes
 *参数y
 */
@@ -366,6 +366,7 @@ function isHoliday(fes, y) {
             case "圣诞节":
                   break;
       }
+      console.log(fes);
       return fes;
 }
 
@@ -378,13 +379,20 @@ var cld;
 // 日历对象cld
 //cld.length:当月天数
 //cld[i]:所选月份的每一天对象
-// cld[i].c_m:农历月份
-// cld[i].c_y:农历年份
-// cld[i].cal_d:农历日期
+// cld[i].c_m:天干地支月份
+// cld[i].c_y:天干地支年份
+// cld[i].cal_d:天干地支日期
 // cld[i].sy:公历年份
 // cld[i].s_m:公历月份
 // cld[i].s_d:公历天日期
 // cld[i].week:所选日期星期几
+// cld[i].solar_festival:节假日信息
+// cld[i].solarTerms:24节气信息
+// cld[i].istoday:判断是否为当天
+// cld[i].lYear:农历年份
+// cld[i].l_m:农历月份
+// cld[i].l_d:农历日期
+// 
 */
 function setCld(SY, SM) {
       var i, sD, s, size;
