@@ -85,32 +85,32 @@ var dStyle;
 
 
 // 时钟clock
-setInterval("oTime()",1000);
-function oTime() {
-   today = new Date();
-   var hou = today.getHours();
-   var min=today.getMinutes(); //分
-   var sec =today.getSeconds(); //秒
-   if(sec<10)
-      var sec ="0"+sec;
-   if(min<10)
-      var min= "0"+min;
-   if(hou<10)
-      var hou = "0"+hou;
-   clock.innerHTML = '<span id="oTime">'+hou+':'+min+':'+sec+'</span>';
-}
+// setInterval("oTime()",1000);
+// function oTime() {
+//    today = new Date();
+//    var hou = today.getHours();
+//    var min=today.getMinutes(); //分
+//    var sec =today.getSeconds(); //秒
+//    if(sec<10)
+//       var sec ="0"+sec;
+//    if(min<10)
+//       var min= "0"+min;
+//    if(hou<10)
+//       var hou = "0"+hou;
+//    clock.innerHTML = '<span id="oTime">'+hou+':'+min+':'+sec+'</span>';
+// }
 
 
-//返回农历第y年的总天数
 function lunar_day(y) {
-   var i, sum = 348
-   for(i=0x8000; i>0x8; i>>=1) sum += (lunarInfo[y-1900] & i)? 1: 0
-   return(sum+lunar_leap(y))
+      var i, sum = 348
+      for(i=0x8000; i>0x8; i>>=1) sum += (lunarInfo[y-1900] & i)? 1: 0
+      return(sum+lunar_leap(y))
 }
 
 //返回农历第y年闰月的天数
+//返回农历第y年的总天数
 function lunar_leap(y) {
-   if(lunar_leap_m(y))  return((lunarInfo[y-1900] & 0x10000)? 30: 29)
+      if(lunar_leap_m(y))  return((lunarInfo[y-1900] & 0x10000)? 30: 29)
    else return(0)
 }
 
@@ -374,7 +374,7 @@ function setCld(SY,SM) {
    var i,sD,s,size;
    cld = new calendar(SY,SM);
 
-    animal_year.innerHTML = '<span class="smlb">'+Animals[(SY-4)%12]+'</span>';
+    animal_year.innerHTML = '<span class="smlb">'+Animals[(SY-4)%12]+'</span>';//设置生肖
 
 
    for(i=0;i<42;i++) {
@@ -492,8 +492,6 @@ function addDay(v) {
          console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d +"日");
          console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d +"日");
       date_content.innerHTML = day_detal;
-
-
    }
 }
 

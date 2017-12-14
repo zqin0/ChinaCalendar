@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="js/index.js"></script>
+    <script src="js/calendar.js"></script>
 </head>
 <style>
     #contaiter{
@@ -17,12 +18,18 @@
     }
     #context{
         font-size: 14px;
-        color: rgb(209, 15, 15);
         margin:0 auto;
-        text-align: center;
-        border-radius: 5px;
+        /* text-align: center;  */
+        width: inherit;
+        height: 200px;
+        background-color: #09bb07;
     }
+    #date{
+        line-height: 36px;
+        font-size: 28px;
+        color:#f00;
 
+    }
 </style>
 <body>
     <div id="contaiter">
@@ -31,6 +38,10 @@
             <div id="weekend"></div>
             <div id="shengxiao"></div>
             <div id="time"></div>
+            <span id="jieri"></span>
+            <span id="jieqi"></span>
+            <div id="nongli"></div>
+            <div id="tiangan"></div>
         </div>
     </div>
 </body>
