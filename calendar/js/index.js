@@ -13,8 +13,8 @@ window.onload = function(){
     document.getElementById("weekend").innerHTML = week;
     document.getElementById("shengxiao").innerHTML = getSX(date.getFullYear());
     // document.getElementById("time").innerHTML = getTime();
-    // setInterval("getTime()",1000);
-    setTimeout(getTime(),1000);
+    setInterval("getTime()",1000);
+    // setTimeout(getTime(),1000);
     // function getTime() {
     //     today = new Date();
     //     var hou = today.getHours();
