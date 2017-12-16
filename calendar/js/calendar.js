@@ -15,7 +15,8 @@ var lunarInfo = new Array(//阴历数据
       0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
       0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0)
 
-var solar_month = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+// 定义每个月的天数
+var daysOfMonth = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
 // 天干数组
 var TianGan = new Array("甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸");
 // 地支数组
@@ -183,11 +184,12 @@ function solar_day(year, month) {
       if (month == 1)//如果是2月的话闰年29天,平年28天,闰年计算方法,能被4整除,但不能被100整除,或者能被400整除
             return (((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) ? 29 : 28)
       else
-            return (solar_month[month])
+            return (daysOfMonth[month])
 }
 
 //传入offset 传回干支，0=甲子
-function cyclical(num) {
+//返回天干地支
+function getTGDZ(num) {
       return (TianGan[num % 10] + DiZhi[num % 12])
 }
 
@@ -240,7 +242,7 @@ class calendar {
                               first_lunarm = lM;
                         lunar_dpos[n++] = i - lD + 1;
                   }
-                  this[i] = new cal_ele(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, cyclical(lunar_dobj.yearCyl), cyclical(lunar_dobj.monCyl), cyclical(lunar_dobj.dayCyl++));
+                  this[i] = new cal_ele(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, getTGDZ(lunar_dobj.yearCyl), getTGDZ(lunar_dobj.monCyl), getTGDZ(lunar_dobj.dayCyl++));
                   if ((i + this.firstWeek) % 7 == 0)
                         this[i].color = '#FF5F07';
                   if ((i + this.firstWeek) % 14 == 13)
