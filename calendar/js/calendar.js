@@ -180,8 +180,9 @@ function Lunar(objDate) {
       this.day = offset + 1
 }
 // 计算公历y年m月的天数
-function solar_day(year, month) {
-      if (month == 1)//如果是2月的话闰年29天,平年28天,闰年计算方法,能被4整除,但不能被100整除,或者能被400整除
+// 传人年,月,获取当月天数
+function getDaysOfMonth(year, month) {
+      if (month == 1)//判断是否为2月,如果是闰年的话29天,平年28天,闰年计算方法,能被4整除,但不能被100整除,或者能被400整除
             return (((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) ? 29 : 28)
       else
             return (daysOfMonth[month])
@@ -227,8 +228,9 @@ class calendar {
             var solor_dobj, lunar_dobj, lY, lM, lD = 1, lL, lX = 0, t_1, t_2;
             var n = 0, first_lunarm = 0;
             solor_dobj = new Date(y, m, 1);
-            this.length = solar_day(y, m);
-            this.firstWeek = solor_dobj.getDay();
+            console.log(solor_dobj.getDay());
+            this.length = getDaysOfMonth(y, m);
+            this.firstWeek = solor_dobj.getDay();//获取当月第一天是星期几
             for (var i = 0; i < this.length; i++) {
                   if (lD > lX) {
                         solor_dobj = new Date(y, m, i + 1);
@@ -421,6 +423,8 @@ function setCld(SY, SM) {
                         solar_obj.style.background = '#DEFDFD';//设置今天公历背景色
                         lunar_obj.style.background = '#91DAE3';//设置今天农历背景色
                         // alert(i);
+                        // console.log(i);
+                        // i 为今天在日历表格中的位置
                         addDay(i);
 
                   }
@@ -504,24 +508,27 @@ function addDay(v) {
       var s, fes;
       var solar_obj = eval('SD' + v);
       var d = solar_obj.innerHTML - 1;
-
+      console.log(d);
       if (solar_obj.innerHTML != '') {
 
             solar_obj.style.cursor = 'pointer';
             fes = '<table><tr><td>' + '<span style="color:#0f0;"><b>' + cld[d].solarTerms + ' ' + cld[d].solar_festival + ' ' + cld[d].lunar_festival + '</b></span></td>' +
                   '</tr></table>';//节假日与24节气
-            //console.log("fes=" + cld[d].solarTerms + "-" + cld[d].solar_festival+"-"+cld[d].lunar_festival);
+            console.log("fes=" + cld[d].solarTerms + "-" + cld[d].solar_festival+"-"+cld[d].lunar_festival);
+
             day_detal =
                   '<table class="detallu"><tr><td>' + '<table><tr><td><span>' + cld[d].sy + '-' + cld[d].s_m + '-' + cld[d].s_d + ' 星期' + cld[d].week + '<br>' +
                   '<p style="font-family:courier;font-size: 54px;margin-right: -215%;margin-bottom: 52%;color:#ff0">' + cld[d].s_d + '</p>' +//当天日期
                   '<span style=" float: right;margin-top: -86%;font-size: 13px;">' + fes + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + ' 日</span><br>' +//农历纪年
                   '<span style="float: right;margin-top: -71%;font-size: 13px;color:#f00">' + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + '日</span>'//天干地支纪年
             '</td></tr></table>';
-
-            // console.log("所选天数 = " + cld[d].s_d);
-            // console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + "日");
-            // console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + "日");
+            document.getElementById("jieqi").innerHTML = cld[d].solarTerms;
+            document.getElementById("jieri").innerHTML = cld[d].solar_festival+" "+cld[d].lunar_festival;
+            console.log("所选天数 = " + cld[d].s_d);
+            console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + "日");
+            console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + "日");
             date_content.innerHTML = day_detal;
+
       }
 }
 
