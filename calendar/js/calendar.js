@@ -26,7 +26,7 @@ var ShengXiao = new Array("鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"
 var solar_term = new Array("小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至")
 //计算某年的第n个节气公历日期所需要的基础数据（类似于每月的多少天）
 var sterm_info = new Array(0, 21208, 42467, 63836, 85337, 107014, 128867, 150921, 173149, 195551, 218072, 240693, 263343, 285989, 308563, 331033, 353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758)
-// 定义全局数组 chineseDate与chineseDate用于保存农历日期
+// 定义全局数组 chineseDate与chineseDate用于保存中文日期
 var chineseNum = new Array('日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十')
 var chineseDate = new Array('初', '十', '廿', '卅', '　')
 
@@ -217,20 +217,44 @@ function cal_ele(sy, s_m, s_d, week, lYear, l_m, l_d, isLeap, c_y, c_m, cal_d) {
 }
 
 //某年的第n个节气的公历日期（从0小寒算起）；节气的公历日期的计算参考网上算法
+// 函数返回当月的2个节气位于第几天,
 function sTerm(y, n) {
       var off_date = new Date((31556925974.7 * (y - 1900) + sterm_info[n] * 60000) + Date.UTC(1900, 0, 6, 2, 5))
+      console.log("节气第"+off_date.getUTCDate()+"天");
       return (off_date.getUTCDate())
 }
-
+// calendar 类,通过传人年y月m构造日历对象
+/*
+*通过传入的年份与月份,计算当月的每一天
+*参数SY:所选年份
+*参数SM:所选月份
+// 日历对象cld
+//cld.length:当月天数
+//cld[i]:所选月份的每一天对象
+// cld[i].c_m:天干地支月份
+// cld[i].c_y:天干地支年份
+// cld[i].cal_d:天干地支日期
+// cld[i].sy:公历年份
+// cld[i].s_m:公历月份
+// cld[i].s_d:公历天日期
+// cld[i].week:所选日期星期几
+// cld[i].solar_festival:节假日信息
+// cld[i].solarTerms:24节气信息
+// cld[i].istoday:判断是否为当天
+// cld[i].lYear:农历年份
+// cld[i].l_m:农历月份
+// cld[i].l_d:农历日期
+// 
+*/
 class calendar {
       constructor(y, m) {
             var lunar_dpos = new Array(3);
             var solor_dobj, lunar_dobj, lY, lM, lD = 1, lL, lX = 0, t_1, t_2;
             var n = 0, first_lunarm = 0;
             solor_dobj = new Date(y, m, 1);
-            console.log(solor_dobj.getDay());
+            console.log("本月第一天是星期"+solor_dobj.getDay());
             this.length = getDaysOfMonth(y, m);
-            this.firstWeek = solor_dobj.getDay();//获取当月第一天是星期几
+            this.firstWeek = solor_dobj.getDay();//通过Date对象的getDay()方法,获取当月第一天是星期几
             for (var i = 0; i < this.length; i++) {
                   if (lD > lX) {
                         solor_dobj = new Date(y, m, i + 1);
@@ -244,14 +268,17 @@ class calendar {
                               first_lunarm = lM;
                         lunar_dpos[n++] = i - lD + 1;
                   }
+                  // 使用cal_ele 函数创建一个包含每天信息的对象
                   this[i] = new cal_ele(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, getTGDZ(lunar_dobj.yearCyl), getTGDZ(lunar_dobj.monCyl), getTGDZ(lunar_dobj.dayCyl++));
                   if ((i + this.firstWeek) % 7 == 0)
                         this[i].color = '#FF5F07';
                   if ((i + this.firstWeek) % 14 == 13)
                         this[i].color = '#FF5F07';
             }
-            t_1 = sTerm(y, m * 2) - 1;
-            t_2 = sTerm(y, m * 2 + 1) - 1;
+            t_1 = sTerm(y, m * 2) - 1;//获取所选月份第一个节气所在的日期
+            t_2 = sTerm(y, m * 2 + 1) - 1;//获取所选月份第二个节气所在的日期
+            // console.log(t_1);
+            // console.log(t_2);
             this[t_1].solarTerms = solar_term[m * 2];
             this[t_2].solarTerms = solar_term[m * 2 + 1];
             if (m == 3)
@@ -292,7 +319,7 @@ class calendar {
             }
       }
 }
-// 函数名getChineseDay计算农历日期
+// 函数名getChineseDay获取中文日期
 // 参数day:公历日期
 // 使用了全局数组chineseDate与chineseNum
 function getChineseDay(day) {
@@ -369,7 +396,7 @@ function isHoliday(fes, y) {
             case "圣诞节":
                   break;
       }
-      console.log(fes);
+      // console.log(fes);
       return fes;
 }
 
@@ -399,12 +426,12 @@ var cld;
 */
 function setCld(SY, SM) {
       var i, sD, s, size;
-      // console.log(SY,SM);
+      console.log("选择的年份为"+SY+"选择的月份为"+SM);
       cld = new calendar(SY, SM);
 
       animal_year.innerHTML = '<span class="smlb">'+ShengXiao[(SY-4)%12]+'</span>';//设置生肖
 
-      // console.log(cld);
+      console.log(cld);
       for (i = 0; i < 42; i++) {
 
             solar_obj = eval('SD' + i);
@@ -414,9 +441,9 @@ function setCld(SY, SM) {
             lunar_obj.style.background = '';
 
             sD = i - cld.firstWeek;//firstWeek是当月第一天星期几,通过i-firstWeek 计算第一天的偏移量
-            // console.log(sD);
+            // console.log("sD = "+sD);//sD为日历索引
             if (sD > -1 && sD < cld.length) {
-                  solar_obj.innerHTML = sD + 1;
+                  solar_obj.innerHTML = sD + 1;//日历上显示的数字内容
 
 
                   if (cld[sD].istoday) {
@@ -508,7 +535,7 @@ function addDay(v) {
       var s, fes;
       var solar_obj = eval('SD' + v);
       var d = solar_obj.innerHTML - 1;
-      console.log(d);
+      // console.log(d);
       if (solar_obj.innerHTML != '') {
 
             solar_obj.style.cursor = 'pointer';
