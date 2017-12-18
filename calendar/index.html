@@ -14,12 +14,12 @@
         width:320px;
         height: 560px;
         border: 1px solid #707070;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
     #context{
-        font-size: 14px;
+        font-size: 16px;
         margin:0 auto;
-        width: inherit;
+        width: 310px;
         height: 200px;
         background-color: #09bb07;
         /* display: flex; */
@@ -27,7 +27,7 @@
     }
     #date{
         line-height: 36px;
-        font-size: 22px;
+        font-size: 16px;
         color:white;
     }
     #shengxiao{
@@ -38,7 +38,21 @@
         float: right;
     }
     #time{
+        font-size: 24px;
+        color: white;
         text-align: center;
+    }
+    #week{
+        width: inherit;
+        line-height: 30px;
+        background-color: #09bb07;
+        border-collapse: collapse;
+    }
+    .weekday{
+        text-align: center;
+        color:#fff;
+        border-top:1px solid #cccccc;
+        border-bottom: 1px solid #cccccc;
     }
 </style>
 <body>
@@ -46,13 +60,24 @@
         <div id="context">
             <div id ="date"></div>
             <div id="weekend"></div>
-            <div id="shengxiao"></div>
+            <div id="time"></div>
             <span id="jieri"></span>
             <span id="jieqi"></span>
             <div id="nongli"></div>
             <div id="tiangan"></div>
-            <div id="time"></div>
+            <div id="shengxiao"></div>
         </div>
+        <table id="week">
+            <tr>
+                <td class="weekday">日</td>
+                <td class="weekday">一</td>
+                <td class="weekday">二</td>
+                <td class="weekday">三</td>
+                <td class="weekday">四</td>
+                <td class="weekday">五</td>
+                <td class="weekday">六</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

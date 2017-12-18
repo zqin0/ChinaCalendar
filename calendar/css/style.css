@@ -57,7 +57,7 @@ body{
   margin-top: 34%;
 }
 #detail{
-   margin-top: 31px;text-align: center;background-color: #2EBEB7;
+  text-align: center;background-color: #2EBEB7;
 }
 #oTime{
   color: white ;text-align: center;
@@ -107,7 +107,8 @@ select {
   }
 
 .week{
-   border-spacing: 0;   
+   border-spacing: 0; 
+   margin: -25px;  
 }
 
 
