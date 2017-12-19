@@ -108,7 +108,8 @@ select {
 
 .week{
    border-spacing: 0; 
-   margin: -25px;  
+   margin-top: -25px;  
+   margin-bottom: 10px;
 }
 
 

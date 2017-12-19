@@ -223,17 +223,16 @@ function sTerm(y, n) {
       console.log("节气第"+off_date.getUTCDate()+"天");
       return (off_date.getUTCDate())
 }
-// calendar 类,通过传人年y月m构造日历对象
-/*
-*通过传入的年份与月份,计算当月的每一天
-*参数SY:所选年份
-*参数SM:所选月份
+/* calendar 类,通过传入年y月m构造日历对象
+// 通过传入的年份与月份,计算当月的每一天
+// 参数SY:所选年份
+// 参数SM:所选月份
 // 日历对象cld
 //cld.length:当月天数
 //cld[i]:所选月份的每一天对象
-// cld[i].c_m:天干地支月份
-// cld[i].c_y:天干地支年份
-// cld[i].cal_d:天干地支日期
+// cld[i].c_m:天干地支记月
+// cld[i].c_y:天干地支记年
+// cld[i].cal_d:天干地支记日
 // cld[i].sy:公历年份
 // cld[i].s_m:公历月份
 // cld[i].s_d:公历天日期
@@ -241,9 +240,9 @@ function sTerm(y, n) {
 // cld[i].solar_festival:节假日信息
 // cld[i].solarTerms:24节气信息
 // cld[i].istoday:判断是否为当天
-// cld[i].lYear:农历年份
-// cld[i].l_m:农历月份
-// cld[i].l_d:农历日期
+// cld[i].lYear:中文年份
+// cld[i].l_m:中文月份
+// cld[i].l_d:中文记日
 // 
 */
 class calendar {
