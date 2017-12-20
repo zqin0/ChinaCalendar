@@ -194,7 +194,8 @@ function getTGDZ(num) {
       return (TianGan[num % 10] + DiZhi[num % 12])
 }
 
-function cal_ele(sy, s_m, s_d, week, lYear, l_m, l_d, isLeap, c_y, c_m, cal_d) {
+// 日期对象构造函数
+function dayObject(sy, s_m, s_d, week, lYear, l_m, l_d, isLeap, c_y, c_m, cal_d) {
 
       this.color = '';
       this.lunar_festival = '';
@@ -251,9 +252,9 @@ class calendar {
             var solor_dobj, lunar_dobj, lY, lM, lD = 1, lL, lX = 0, t_1, t_2;
             var n = 0, first_lunarm = 0;
             solor_dobj = new Date(y, m, 1);
-            console.log("本月第一天是星期"+solor_dobj.getDay());
-            this.length = getDaysOfMonth(y, m);
+            this.length = getDaysOfMonth(y, m);//获取y年m月的天数
             this.firstWeek = solor_dobj.getDay();//通过Date对象的getDay()方法,获取当月第一天是星期几
+            console.log("本月第一天是星期"+solor_dobj.getDay());
             for (var i = 0; i < this.length; i++) {
                   if (lD > lX) {
                         solor_dobj = new Date(y, m, i + 1);
@@ -267,8 +268,8 @@ class calendar {
                               first_lunarm = lM;
                         lunar_dpos[n++] = i - lD + 1;
                   }
-                  // 使用cal_ele 函数创建一个包含每天信息的对象
-                  this[i] = new cal_ele(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, getTGDZ(lunar_dobj.yearCyl), getTGDZ(lunar_dobj.monCyl), getTGDZ(lunar_dobj.dayCyl++));
+                  // 使用dayObject 函数创建一个包含每天信息的对象
+                  this[i] = new dayObject(y, m + 1, i + 1, chineseNum[(i + this.firstWeek) % 7], lY, lM, lD++, lL, getTGDZ(lunar_dobj.yearCyl), getTGDZ(lunar_dobj.monCyl), getTGDZ(lunar_dobj.dayCyl++));
                   if ((i + this.firstWeek) % 7 == 0)
                         this[i].color = '#FF5F07';
                   if ((i + this.firstWeek) % 14 == 13)
