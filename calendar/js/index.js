@@ -13,7 +13,7 @@ window.onload = function(){
     document.getElementById("weekend").innerHTML = week;
     document.getElementById("shengxiao").innerHTML = getSX(date.getFullYear());
     // document.getElementById("time").innerHTML = getTime();
-    setInterval("getTime()",1000);
+    //setInterval("getTime()",1000);
     // setTimeout(getTime(),1000);
     // function getTime() {
     //     today = new Date();
@@ -31,6 +31,8 @@ window.onload = function(){
     //     document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
     //     // setInterval("getTime()", 1000);
     // }
+    // getDetail();
+    createTable();
 
 }
 // 获取生肖函数
@@ -58,4 +60,36 @@ function getTime(){
     // return time;
     document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
     // setInterval("getTime()", 1000);
+}
+function createTable() {
+    var Num; //Num计算出日期位置
+    var html = "";
+    for (i = 0; i < 6; i++) {
+
+        html += '<table id="cal-content"><tr>';
+
+        for (j = 0; j < 7; j++) {
+            Num = i * 7 + j;
+            html += '<td id="SD' + Num.toString() + '" onclick="addDay(' + Num.toString() + ')" ';
+            //周六 周日 假期样式设定
+            if (j == 0 || j == 6) {
+                html += ' class="weekend"';
+            } else {
+                html += ' class="sampleDay"';
+            }
+            html += 'title=""> </td>';
+        }
+
+        html += '</tr></table></td></tr><tr><td><table><tr style="text-align:center"> ';
+        //农历
+        for (j = 0; j < 7; j++) {
+            Num = i * 7 + j;
+            html += '<td id="LD' + Num.toString() + '" onclick="addDay(' + Num.toString() + ')" class="chinaDay" title=""> </td>';
+
+        }
+        html += '</tr></table>';
+
+    }
+    //    console.log(html);
+    document.getElementById("detail").innerHTML = html;
 }
