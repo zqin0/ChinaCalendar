@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="js/index.js"></script>
-    <!-- <script src="js/calendar.js"></script> -->
+    <script src="js/calendar.js"></script>
 </head>
 <style>
     #contaiter{
@@ -20,7 +20,7 @@
         font-size: 16px;
         margin:0 auto;
         width: 310px;
-        height: 200px;
+        height: 190px;
         background-color: #09bb07;
         /* display: flex; */
         padding: 5px;
@@ -54,6 +54,26 @@
         border-top:1px solid #cccccc;
         border-bottom: 1px solid #cccccc;
     }
+    #detail{
+        width:320px;
+        height: 300px;
+        background-color: darkgray;
+    }
+    .weekend{
+        width: 42px;
+        height: 24px;
+        background-color:#ff5f07;
+    }
+    .sampleDay{
+        width:42px;
+        height:24px;
+        background-color: aquamarine;
+    }
+    .chinaDay{
+        width:42px;
+        height: 16px;
+        background-color: chartreuse;
+    }
 </style>
 <body>
     <div id="contaiter">
@@ -78,6 +98,9 @@
                 <td class="weekday">六</td>
             </tr>
         </table>
+        <div id="detail" onclick="getDetail()">
+
+        </div>
     </div>
 </body>
 </html>

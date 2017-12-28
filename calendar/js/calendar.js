@@ -131,8 +131,7 @@ function lunar_leap_d(y, m) {
 }
 
 //算出农历，把值传入到日期控件，返回农历日期控件
-//该农历日期对象的属性：.year,.month,.day,.isLeap,
-//.yearCyl,.monthCyl,.dayCyl
+//该农历日期对象的属性：.year .month .day .isLeap .yearCyl .monthCyl .dayCyl
 function Lunar(objDate) {
 
       var i, leap = 0, temp = 0
@@ -429,22 +428,23 @@ function setCld(SY, SM) {
       console.log("选择的年份为"+SY+"选择的月份为"+SM);
       cld = new calendar(SY, SM);
 
-      animal_year.innerHTML = '<span class="smlb">'+ShengXiao[(SY-4)%12]+'</span>';//设置生肖
+      // animal_year.innerHTML = '<span class="smlb">'+ShengXiao[(SY-4)%12]+'</span>';//设置生肖
 
       console.log(cld);
       for (i = 0; i < 42; i++) {
-
+            var id = "SD" + i.toString();
+            console.log(id);
             solar_obj = eval('SD' + i);
             lunar_obj = eval('LD' + i);
-
+            // console.log(solar_obj);
+            // console.log(lunar_obj);
             solar_obj.style.background = '';
             lunar_obj.style.background = '';
-
             sD = i - cld.firstWeek;//firstWeek是当月第一天星期几,通过i-firstWeek 计算第一天的偏移量
             // console.log("sD = "+sD);//sD为日历索引
             if (sD > -1 && sD < cld.length) {
-                  solar_obj.innerHTML = sD + 1;//日历上显示的数字内容
-
+                  // solar_obj.innerHTML = sD + 1+"号";//日历上显示的数字内容
+                  document.getElementById(id).innerHTML = sD + 1;
 
                   if (cld[sD].istoday) {
                         solar_obj.style.background = '#DEFDFD';//设置今天公历背景色
@@ -541,7 +541,7 @@ function addDay(v) {
             solar_obj.style.cursor = 'pointer';
             fes = '<table><tr><td>' + '<span style="color:#0f0;"><b>' + cld[d].solarTerms + ' ' + cld[d].solar_festival + ' ' + cld[d].lunar_festival + '</b></span></td>' +
                   '</tr></table>';//节假日与24节气
-            console.log("fes=" + cld[d].solarTerms + "-" + cld[d].solar_festival+"-"+cld[d].lunar_festival);
+            // console.log("fes=" + cld[d].solarTerms + "-" + cld[d].solar_festival+"-"+cld[d].lunar_festival);
 
             day_detal =
                   '<table class="detallu"><tr><td>' + '<table><tr><td><span>' + cld[d].sy + '-' + cld[d].s_m + '-' + cld[d].s_d + ' 星期' + cld[d].week + '<br>' +
@@ -589,5 +589,39 @@ function initial() {
       calender_content.SY.selectedIndex = tY - 1900;
       calender_content.SM.selectedIndex = tM;
       setCld(tY, tM);
+      // getDetail();
 }
 
+function getDetail(){
+      var Num; //Num计算出日期位置
+      var html = "";
+      for(i=0;i<6;i++) {
+
+              html += '<table id="cal-content"><tr>';
+             
+       for(j=0;j<7;j++) {
+          Num = i*7+j;
+          html += '<td id="SD' + Num.toString() +'" onclick="addDay(' + Num.toString() +')" ';
+  //周六 周日 假期样式设定
+        if(j == 0|| j == 6)
+        {
+              html +=' class="weekend"';
+         }else{
+              html +=' class="sampleDay"';
+        }
+              html +='title=""> </td>';
+       }
+
+          html +='</tr></table></td></tr><tr><td><table><tr style="text-align:center"> ';
+     //农历
+     for(j=0;j<7;j++) {
+        Num = i*7+j;
+        html += '<td id="LD' + Num.toString() +'" onclick="addDay(' + Num.toString() +')" class="chinaDay" title=""> </td>';
+
+     }
+        html +='</tr></table>';
+     
+   }
+//    console.log(html);
+   document.getElementById("detail").innerHTML = html;
+}
