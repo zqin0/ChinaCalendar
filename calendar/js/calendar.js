@@ -424,7 +424,7 @@ var cld;
 // 
 */
 function setCld(SY, SM) {
-      var i, sD, s, size;
+      var i, index, s, size;
       console.log("选择的年份为"+SY+"选择的月份为"+SM);
       cld = new calendar(SY, SM);
 
@@ -433,20 +433,26 @@ function setCld(SY, SM) {
       console.log(cld);
       for (i = 0; i < 42; i++) {
             var id = "SD" + i.toString();
-            console.log(id);
+            // console.log(id);
             solar_obj = eval('SD' + i);
             lunar_obj = eval('LD' + i);
             // console.log(solar_obj);
             // console.log(lunar_obj);
             solar_obj.style.background = '';
             lunar_obj.style.background = '';
-            sD = i - cld.firstWeek;//firstWeek是当月第一天星期几,通过i-firstWeek 计算第一天的偏移量
-            // console.log("sD = "+sD);//sD为日历索引
-            if (sD > -1 && sD < cld.length) {
-                  // solar_obj.innerHTML = sD + 1+"号";//日历上显示的数字内容
-                  document.getElementById(id).innerHTML = sD + 1;
+            index = i - cld.firstWeek;//firstWeek是当月第一天星期几,通过i-firstWeek 计算第一天的偏移量
+            if(index < 0 ){
+                  console.log("index = "+index);
+                  console.log("id = "+id);
+                  document.getElementById(id).innerHTML = "空";
+            }
+            // console.log("index = "+index);//index为日历索引
+            
+            if (index > -1 && index < cld.length) {
+                  // solar_obj.innerHTML = index + 1+"号";//日历上显示的数字内容
+                  document.getElementById(id).innerHTML = index + 1;
 
-                  if (cld[sD].istoday) {
+                  if (cld[index].istoday) {
                         solar_obj.style.background = '#DEFDFD';//设置今天公历背景色
                         lunar_obj.style.background = '#91DAE3';//设置今天农历背景色
                         // alert(i);
@@ -456,27 +462,27 @@ function setCld(SY, SM) {
 
                   }
 
-                  solar_obj.style.color = cld[sD].color;
+                  solar_obj.style.color = cld[index].color;
 
-                  if (cld[sD].l_d == 1)
-                        lunar_obj.innerHTML = '<b>' + (cld[sD].isLeap ? '闰' : '') + cld[sD].l_m + '月' + (lunar_leap_d(cld[sD].lYear, cld[sD].l_m) == 29 ? '小' : '大') + '</b>';
+                  if (cld[index].l_d == 1)
+                        lunar_obj.innerHTML = '<b>' + (cld[index].isLeap ? '闰' : '') + cld[index].l_m + '月' + (lunar_leap_d(cld[index].lYear, cld[index].l_m) == 29 ? '小' : '大') + '</b>';
                   else
-                        lunar_obj.innerHTML = getChineseDay(cld[sD].l_d);
+                        lunar_obj.innerHTML = getChineseDay(cld[index].l_d);
 
-                  s = cld[sD].lunar_festival;
+                  s = cld[index].lunar_festival;
                   if (s.length > 0) {
                         if (s.length > 5) s = s.substr(0, 3) + '…';
 
                   }
                   else {
-                        s = cld[sD].solar_festival;
+                        s = cld[index].solar_festival;
                         if (s.length > 0) {
                               size = (s.charCodeAt(0) > 0 && s.charCodeAt(0) < 128) ? 8 : 4;
                               if (s.length > size + 1) s = s.substr(0, size - 1) + '…';
                               s = s.fontcolor('#79B0F6');  //节日
                         }
                         else {
-                              s = cld[sD].solarTerms;//24节气
+                              s = cld[index].solarTerms;//24节气
                               if (s.length > 0) s = s.fontcolor('#2EBEB7');
                         }
                   }
@@ -484,8 +490,8 @@ function setCld(SY, SM) {
 
             }
             else {
-                  solar_obj.innerHTML = ' ';
-                  lunar_obj.innerHTML = ' ';
+                  // solar_obj.innerHTML = ' ';
+                  // lunar_obj.innerHTML = ' ';
             }
       }
 
