@@ -491,7 +491,7 @@ function setCld(SY, SM) {
             }
             else {
                   // solar_obj.innerHTML = ' ';
-                  // lunar_obj.innerHTML = ' ';
+                  lunar_obj.innerHTML = ' ';
             }
       }
 

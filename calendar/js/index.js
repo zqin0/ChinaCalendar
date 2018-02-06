@@ -2,10 +2,9 @@ window.onload = function(){
     var weekend = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];
     // var SX = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
     var date = new Date();
-    
     var weekday = date.getUTCDay();
     var week = weekend[weekday];
-    
+
     var day = date.getFullYear().toString()+"-"+(1+date.getMonth()).toString()+"-"+date.getDate().toString();
     // 注意getMonth返回的是0~11即0代表1月,11代表12月
     console.log(date);
@@ -31,7 +30,6 @@ window.onload = function(){
     //     document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
     //     // setInterval("getTime()", 1000);
     // }
-    // getDetail();
     createTable();
 
 }
