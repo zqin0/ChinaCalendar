@@ -557,6 +557,7 @@ function addDay(v) {
             '</td></tr></table>';
             document.getElementById("jieqi").innerHTML = cld[d].solarTerms;
             document.getElementById("jieri").innerHTML = cld[d].solar_festival+" "+cld[d].lunar_festival;
+            document.getElementById("chinaDay").innerHTML = '农历' + cld[d].isLeap ? '闰 ' : ' ' + cld[d].l_m + ' 月 ' + cld[d].l_d + "日"
             console.log("所选天数 = " + cld[d].s_d);
             console.log("农历年月日 = " + '农历' + (cld[d].isLeap ? '闰 ' : ' ') + cld[d].l_m + ' 月 ' + cld[d].l_d + "日");
             console.log("天干地支纪年 = " + cld[d].c_y + '年 ' + cld[d].c_m + '月 ' + cld[d].cal_d + "日");
