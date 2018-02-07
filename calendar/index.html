@@ -83,11 +83,15 @@
         height: 14px;
         background-color: rgb(231, 231, 231);
     }
-    #select{
+    #selectBox{
         background-color: aquamarine;
+        display: inline-block;
+        margin: 0 auto;
     }
     .select{
-
+        width: 120px;
+        display: inline-block;
+        margin: 0 auto;
     }
 </style>
 <body>
@@ -116,16 +120,11 @@
         <div id="detail">
 
         </div>
-        <div id="select">
-            <span class="select">
-                <select name="selectYear" id="selectYear">
-                    <option value="" id="currentYear">2018年</option>
-                </select>
-            </span>
-            <span class="select">
-                <select name="selectMonth" id="selectMonth">
-                </select>
-            </span>
+        <div id="selectBox">
+            <div id="select">
+                <select class="select" name="selectYear" id="selectYear"></select>
+                <select class="select" name="selectMonth" id="selectMonth"></select>
+            </div>
         </div>
     </div>
 </body>

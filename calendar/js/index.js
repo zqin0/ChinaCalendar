@@ -13,41 +13,42 @@ window.onload = function(){
     document.getElementById("weekend").innerHTML = week;
     document.getElementById("shengxiao").innerHTML = getSX(date.getFullYear());
     document.getElementById("time").innerHTML = getTime();
-    // setInterval("getTime()",1000);
+    setInterval("getTime()",1000);
     // setTimeout(getTime(),1000);
     createTable();
 
-    for(i=1900;i<2050;i++){
+    for(i=1950;i<2051;i++){
         // console.log("success");
         var yearNode = document.createElement("option");
         yearNode.innerHTML = i.toString() + "年";
         document.getElementById("selectYear").appendChild(yearNode);
     }
     for(j=1;j<13;j++){
-        console.log("success");
+        // console.log("success");
         var monthNode = document.createElement("option");
         monthNode.innerHTML = j.toString() + "月"
         document.getElementById("selectMonth").appendChild(monthNode);
     }
+    getSelectDate();
     // document.getElementById("SD1").innerHTML = 1; 
-    function getTime() {
-        // setInterval("getTime()", 1000);
-        today = new Date();
-        var hou = today.getHours();
-        var min = today.getMinutes(); //分
-        var sec = today.getSeconds(); //秒
-        if (sec < 10)
-            var sec = "0" + sec;
-        if (min < 10)
-            var min = "0" + min;
-        if (hou < 10)
-            var hou = "0" + hou;
-        var time = hou + ':' + min + ':' + sec;
-        // return time;
-        // document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
-        // setInterval("getTime()", 1000);
-        // console.log(time);
-    }
+    // function getTime() {
+    //     // setInterval("getTime()", 1000);
+    //     today = new Date();
+    //     var hou = today.getHours();
+    //     var min = today.getMinutes(); //分
+    //     var sec = today.getSeconds(); //秒
+    //     if (sec < 10)
+    //         var sec = "0" + sec;
+    //     if (min < 10)
+    //         var min = "0" + min;
+    //     if (hou < 10)
+    //         var hou = "0" + hou;
+    //     var time = hou + ':' + min + ':' + sec;
+    //     // return time;
+    //     // document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
+    //     // setInterval("getTime()", 1000);
+    //     // console.log(time);
+    // }
     var lengthOfMonth = getDaysOfMonth(year, month)
     // console.log(getFirstWeek(date));
     // console.log(getDaysOfMonth(year,month))
@@ -151,3 +152,14 @@ function getFirstWeek(Y,M){
     console.log(firstweek);
     return firstweek;
 }
+function getSelectDate() {
+    var selectYear = document.getElementById("selectYear");
+    var selectMonth = document.getElementById("selectMonth");
+    console.log(selectMonth);
+    console.log(selectYear);
+    var indexY = selectYear.selectedIndex;
+    var indexM = selectMonth.selectedIndex;
+    console.log(selectYear[indexY].text);
+    console.log(selectMonth[indexM].text);
+    // console.log(selectYear,selectMonth);
+}   
