@@ -15,7 +15,8 @@ window.onload = function(){
     document.getElementById("time").innerHTML = getTime();
     // setInterval("getTime()",1000);
     // setTimeout(getTime(),1000);
-    
+    createTable();
+    // document.getElementById("SD1").innerHTML = 1; 
     function getTime() {
         // setInterval("getTime()", 1000);
         today = new Date();
@@ -34,11 +35,11 @@ window.onload = function(){
         // setInterval("getTime()", 1000);
         // console.log(time);
     }
-    console.log(getDaysOfMonth(year,month))
-    createTable();
-
+    // console.log(getDaysOfMonth(year,month))
+    showEveryDay(getDaysOfMonth(year,month));
 
 }
+
 // 获取生肖函数
 function getSX(Year) {
     var SX = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
@@ -107,4 +108,15 @@ function getDaysOfMonth(year,month) {
         return daysOfMonth[month]
     }
 
+}
+// 将每一天的日期写入detail表中
+function showEveryDay(daysOfMonth) {
+    var i,id;
+    console.log(daysOfMonth);
+    for(i=0;i<daysOfMonth;i++){
+        id ="SD" + i.toString();
+        console.log(id);
+        document.getElementById(id).innerHTML = i + 1;
+        // document.getElementById("id").innerText = i + 1;
+    }
 }
