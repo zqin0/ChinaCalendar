@@ -69,21 +69,26 @@
         width: 42px;
         height: 24px;
         text-align: center;
-        background-color:#ff5f07;
+        background-color:#ff7300;
         margin-left:20px;
     }
     .sampleDay{
         width:42px;
         height:24px;
         text-align: center;
-        background-color: rgb(212, 212, 212);
+        background-color: rgb(196, 196, 196);
     }
     .chinaDay{
         width:42px;
         height: 14px;
-        background-color: rgb(255, 210, 184);
+        background-color: rgb(231, 231, 231);
     }
+    #select{
+        background-color: aquamarine;
+    }
+    .select{
 
+    }
 </style>
 <body>
     <div id="contaiter">
@@ -110,6 +115,17 @@
         </table>
         <div id="detail">
 
+        </div>
+        <div id="select">
+            <span class="select">
+                <select name="selectYear" id="selectYear">
+                    <option value="" id="currentYear">2018年</option>
+                </select>
+            </span>
+            <span class="select">
+                <select name="selectMonth" id="selectMonth">
+                </select>
+            </span>
         </div>
     </div>
 </body>

@@ -16,6 +16,19 @@ window.onload = function(){
     // setInterval("getTime()",1000);
     // setTimeout(getTime(),1000);
     createTable();
+
+    for(i=1900;i<2050;i++){
+        // console.log("success");
+        var yearNode = document.createElement("option");
+        yearNode.innerHTML = i.toString() + "年";
+        document.getElementById("selectYear").appendChild(yearNode);
+    }
+    for(j=1;j<13;j++){
+        console.log("success");
+        var monthNode = document.createElement("option");
+        monthNode.innerHTML = j.toString() + "月"
+        document.getElementById("selectMonth").appendChild(monthNode);
+    }
     // document.getElementById("SD1").innerHTML = 1; 
     function getTime() {
         // setInterval("getTime()", 1000);
@@ -35,8 +48,17 @@ window.onload = function(){
         // setInterval("getTime()", 1000);
         // console.log(time);
     }
+    var lengthOfMonth = getDaysOfMonth(year, month)
+    // console.log(getFirstWeek(date));
     // console.log(getDaysOfMonth(year,month))
-    showEveryDay(getDaysOfMonth(year,month));
+    // var lengthOfMonth = getDaysOfMonth(year,month)
+    var newdate = new Date(2018,02,10)
+    console.log(newdate);
+    console.log(newdate.getDate())
+    var lengthOfMonth = getDaysOfMonth(newdate.getFullYear(),newdate.getMonth())
+    var offset = getFirstWeek(newdate.getFullYear(),newdate.getMonth())
+    // var offset = getFirstWeek(year,month);
+    showEveryDay(lengthOfMonth,offset);
 
 }
 
@@ -105,18 +127,27 @@ function getDaysOfMonth(year,month) {
     if(month == 1){
         return ((year % 4 == 0)&&(year % 100 == 0) || (year % 400 == 0))?29 : 28
     }else{
-        return daysOfMonth[month]
+        return daysOfMonth[month];
     }
+    
 
 }
 // 将每一天的日期写入detail表中
-function showEveryDay(daysOfMonth) {
+function showEveryDay(daysOfMonth,index){
     var i,id;
+    // index = index + 1;
     console.log(daysOfMonth);
     for(i=0;i<daysOfMonth;i++){
-        id ="SD" + i.toString();
+        id ="SD" + index.toString();
         console.log(id);
         document.getElementById(id).innerHTML = i + 1;
+        index ++;
         // document.getElementById("id").innerText = i + 1;
     }
+}
+function getFirstWeek(Y,M){
+    var d = new Date(Y,M,1);
+    var firstweek = d.getDay();
+    console.log(firstweek);
+    return firstweek;
 }
