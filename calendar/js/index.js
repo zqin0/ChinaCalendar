@@ -15,47 +15,34 @@ window.onload = function(){
     document.getElementById("time").innerHTML = getTime();
     setInterval("getTime()",1000);
     // setTimeout(getTime(),1000);
-    createTable();
+    // createTable();
 
     for(i=1950;i<2051;i++){
         // console.log("success");
         var yearNode = document.createElement("option");
+        yearNode.setAttribute("value",i);
         yearNode.innerHTML = i.toString() + "年";
         document.getElementById("selectYear").appendChild(yearNode);
     }
     for(j=1;j<13;j++){
         // console.log("success");
         var monthNode = document.createElement("option");
+        monthNode.setAttribute("value",j);
         monthNode.innerHTML = j.toString() + "月"
         document.getElementById("selectMonth").appendChild(monthNode);
     }
     getSelectDate();
+    document.getElementById("selectYear").addEventListener("change",DaysChange);
+    document.getElementById("selectMonth").addEventListener("change",DaysChange);
     // document.getElementById("SD1").innerHTML = 1; 
-    // function getTime() {
-    //     // setInterval("getTime()", 1000);
-    //     today = new Date();
-    //     var hou = today.getHours();
-    //     var min = today.getMinutes(); //分
-    //     var sec = today.getSeconds(); //秒
-    //     if (sec < 10)
-    //         var sec = "0" + sec;
-    //     if (min < 10)
-    //         var min = "0" + min;
-    //     if (hou < 10)
-    //         var hou = "0" + hou;
-    //     var time = hou + ':' + min + ':' + sec;
-    //     // return time;
-    //     // document.getElementById("time").innerHTML = hou + ':' + min + ':' + sec;
-    //     // setInterval("getTime()", 1000);
-    //     // console.log(time);
-    // }
+    createTable();
     var lengthOfMonth = getDaysOfMonth(year, month)
     // console.log(getFirstWeek(date));
     // console.log(getDaysOfMonth(year,month))
     // var lengthOfMonth = getDaysOfMonth(year,month)
     var newdate = new Date(2018,02,10)
-    console.log(newdate);
-    console.log(newdate.getDate())
+    // console.log(newdate);
+    // console.log(newdate.getDate())
     var lengthOfMonth = getDaysOfMonth(newdate.getFullYear(),newdate.getMonth())
     var offset = getFirstWeek(newdate.getFullYear(),newdate.getMonth())
     // var offset = getFirstWeek(year,month);
@@ -155,11 +142,24 @@ function getFirstWeek(Y,M){
 function getSelectDate() {
     var selectYear = document.getElementById("selectYear");
     var selectMonth = document.getElementById("selectMonth");
-    console.log(selectMonth);
-    console.log(selectYear);
+    // console.log(selectMonth);
+    // console.log(selectYear);
     var indexY = selectYear.selectedIndex;
     var indexM = selectMonth.selectedIndex;
-    console.log(selectYear[indexY].text);
-    console.log(selectMonth[indexM].text);
+    // console.log(selectYear[indexY].text);
+    // console.log(selectMonth[indexM].text);
     // console.log(selectYear,selectMonth);
-}   
+    var selectDate = {
+        "year":selectYear[indexY].value,
+        "month":selectMonth[indexM].value
+    }
+    return selectDate;
+
+}
+function DaysChange(){
+    console.log("Days has been changed");
+    var selectYear = getSelectDate().year;
+    var selectMonth = getSelectDate().month;
+    console.log(selectYear,selectMonth);
+    // return selectYear,selectMonth;
+}
