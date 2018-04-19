@@ -31,15 +31,15 @@ window.onload = function(){
     // var lengthOfMonth = getDaysOfMonth(year, month)
     // console.log(getFirstWeek(date));
     // console.log(getDaysOfMonth(year,month))
-    var lengthOfMonth = getDaysOfMonth(year,month)
+    // var lengthOfMonth = getDaysOfMonth(year,month)
     // var newdate = new Date(2018,02,10)
     // console.log(newdate);
     // console.log(newdate.getDate())
     // var lengthOfMonth = getDaysOfMonth(newdate.getFullYear(),newdate.getMonth())
     // var offset = getFirstWeek(newdate.getFullYear(),newdate.getMonth())
-    var offset = getFirstWeek(year,month);
-    getChineseMonth(year,month);
-    showEveryDay(lengthOfMonth,offset);
+    // var offset = getFirstWeek(year,month);
+    // getChineseMonth(year,month);
+    showEveryDay(year,month);
 
 }
 //创建日期选择器 
@@ -133,17 +133,28 @@ function getDaysOfMonth(year,month) {
 
 }
 // 将每一天的日期写入detail表中
-function showEveryDay(daysOfMonth,index){
-    var i,id;
+function showEveryDay(year,month){
+    var daysOfMonth = getDaysOfMonth(year,month)
+    var offset = getFirstWeek(year,month);
+    var i,j,id,cid;
+    var chineseDayDetail = getChineseMonth(year,month);
     // index = index + 1;
-    console.log(daysOfMonth);
+    // console.log(daysOfMonth);
     for(i=0;i<daysOfMonth;i++){
-        id ="SD" + index.toString();
-        // console.log(id);
+        id ="SD" + offset.toString();
+        cid = "LD" + offset.toString();
         document.getElementById(id).innerHTML = i + 1;
-        index ++;
+        document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
+        offset ++;
         // document.getElementById("id").innerText = i + 1;
     }
+    
+    // for(j=0; j<daysOfMonth;j++){
+    //     cid = "LD" + offset.toString();
+    //     document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[j].day + 1);
+    //     offset ++;
+    // }
+
 }
 function getFirstWeek(Y,M){
     var d = new Date(Y,M,1);
@@ -172,10 +183,11 @@ function DaysChange(){
     console.log("Days has been changed");
     var selectYear = getSelectDate().year;
     var selectMonth = getSelectDate().month - 1;
-    var daysOfSelectMonth = getDaysOfMonth(selectYear,selectMonth);
-    var offsetOfSelectMonth = getFirstWeek(selectYear,selectMonth);
+    // var daysOfSelectMonth = getDaysOfMonth(selectYear,selectMonth);
+    // var offsetOfSelectMonth = getFirstWeek(selectYear,selectMonth);
     clearDetial();
-    showEveryDay(daysOfSelectMonth,offsetOfSelectMonth);
+    // showEveryDay(daysOfSelectMonth,offsetOfSelectMonth);
+    showEveryDay(selectYear,selectMonth);
     // console.log(selectYear,selectMonth);
     // return selectYear,selectMonth;
 }
@@ -306,11 +318,12 @@ function getChineseDay(day) {
 function getChineseMonth(year,month) {
     var dayofmonth = getDaysOfMonth(year,month);
     var i;
-    for(i = 0; i < dayofmonth;i++){
-        var newdate = new Date(year,month,i+1)
-        var chineseday = getChineseDate(newdate);
-        console.log(chineseday);
-        console.log((month+1)+ "月"+(i+1)+"日-农历:"+chineseday.month+"月"+getChineseDay(chineseday.day));
-        
+    var chineseDateList = [];
+    for(i = 0; i<dayofmonth;i++){
+        var newdate = new Date(year,month,i+1);
+        chineseDateList[i] = getChineseDate(newdate);
+        // console.log(chineseday);
+        // console.log((month+1)+ "月"+(i+1)+"日-农历:"+chineseday.month+"月"+getChineseDay(chineseday.day));
     }
+    return chineseDateList;
 }
