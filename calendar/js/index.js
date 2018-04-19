@@ -36,16 +36,16 @@ window.onload = function(){
     document.getElementById("selectMonth").addEventListener("change",DaysChange);
     // document.getElementById("SD1").innerHTML = 1; 
     createTable();
-    var lengthOfMonth = getDaysOfMonth(year, month)
+    // var lengthOfMonth = getDaysOfMonth(year, month)
     // console.log(getFirstWeek(date));
     // console.log(getDaysOfMonth(year,month))
-    // var lengthOfMonth = getDaysOfMonth(year,month)
-    var newdate = new Date(2018,02,10)
+    var lengthOfMonth = getDaysOfMonth(year,month)
+    // var newdate = new Date(2018,02,10)
     // console.log(newdate);
     // console.log(newdate.getDate())
-    var lengthOfMonth = getDaysOfMonth(newdate.getFullYear(),newdate.getMonth())
-    var offset = getFirstWeek(newdate.getFullYear(),newdate.getMonth())
-    // var offset = getFirstWeek(year,month);
+    // var lengthOfMonth = getDaysOfMonth(newdate.getFullYear(),newdate.getMonth())
+    // var offset = getFirstWeek(newdate.getFullYear(),newdate.getMonth())
+    var offset = getFirstWeek(year,month);
     showEveryDay(lengthOfMonth,offset);
 
 }
@@ -159,7 +159,19 @@ function getSelectDate() {
 function DaysChange(){
     console.log("Days has been changed");
     var selectYear = getSelectDate().year;
-    var selectMonth = getSelectDate().month;
-    console.log(selectYear,selectMonth);
+    var selectMonth = getSelectDate().month - 1;
+    var daysOfSelectMonth = getDaysOfMonth(selectYear,selectMonth);
+    var offsetOfSelectMonth = getFirstWeek(selectYear,selectMonth);
+    clearDetial();
+    showEveryDay(daysOfSelectMonth,offsetOfSelectMonth);
+    // console.log(selectYear,selectMonth);
     // return selectYear,selectMonth;
+}
+function clearDetial() {
+    // document.getElementById('detail').innerText = '';
+    // createTable();
+    document.getElementsByClassName('chinaDay').innerHTML = '';
+    document.getElementsByClassName('sampleDay').innerHTML = '';
+    console.log(typeof())
+    // console.log('clearDetial')
 }
