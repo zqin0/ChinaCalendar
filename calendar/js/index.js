@@ -140,13 +140,16 @@ function showEveryDay(year,month){
     var chineseDayDetail = getChineseMonth(year,month);
     // index = index + 1;
     // console.log(daysOfMonth);
+    // 显示上个月末
     getPrevMonthDetial(year,month);
+
+    // 判断是否为本月第一天是否为星期天,如果是的话从第二行开始显示
     if(offset == 0){
         for (i = 0; i < daysOfMonth; i++) {
             id = "SD" + ( offset + 7).toString();
             cid = "LD" + (offset + 7).toString();
             document.getElementById(id).innerHTML = i + 1;
-            document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
+            document.getElementById(cid).innerHTML = transformChinese(chineseDayDetail[i].day);
             offset++;
             // document.getElementById("id").innerText = i + 1;
         }
@@ -155,19 +158,16 @@ function showEveryDay(year,month){
             id = "SD" + offset.toString();
             cid = "LD" + offset.toString();
             document.getElementById(id).innerHTML = i + 1;
-            document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
+            document.getElementById(cid).innerHTML = transformChinese(chineseDayDetail[i].day);
             offset++;
             // document.getElementById("id").innerText = i + 1;
         }
     }
+    // 显示下个月初
     getNextMonthDetial(year,month);
-    // for(j=0; j<daysOfMonth;j++){
-    //     cid = "LD" + offset.toString();
-    //     document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[j].day + 1);
-    //     offset ++;
-    // }
 
 }
+// 计算上个月末
 function getPrevMonthDetial(year,month) {
     var index;
     var daysOfPrevMonth;
@@ -182,22 +182,27 @@ function getPrevMonthDetial(year,month) {
     if(offset == 0){
         for(index = 0; index<7;index++){
             id = "SD" + index.toString();
+            cid = "LD" + index.toString();
             document.getElementById(id).innerHTML = firstday - 7;
             document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            document.getElementById(cid).innerHTML = transformChinese(getChineseDay(year,(month-1),(firstday-7)).day);
+            document.getElementById(cid).setAttribute("style","color:#aaa;background-Color:#eee");
             firstday ++;
         }
     }else{
         for(index = 0; index<offset;index++){
             id = "SD" + index.toString();
+            cid = "LD" + index.toString();
             document.getElementById(id).innerHTML = firstday;
             document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
-
+            document.getElementById(cid).innerHTML = transformChinese(getChineseDay(year,(month-1),firstday).day);
+            document.getElementById(cid).setAttribute("style","color:#aaa;background-Color:#eee");
             firstday ++;
         }
     }
     
 }
-
+// 计算下个月初
 function getNextMonthDetial(year,month) {
     var index;
     var daysOfcurrentMonth;
@@ -209,8 +214,11 @@ function getNextMonthDetial(year,month) {
         space = (42 - daysOfcurrentMonth - 7);
         for(index = 0; index<space;index++){
             id = "SD" + lastDay.toString();
+            cid = "LD" + lastDay.toString();
             document.getElementById(id).innerHTML = (index + 1);
             document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            document.getElementById(cid).innerHTML = transformChinese(getChineseDay(year,(month+1),(index+1)).day);
+            document.getElementById(cid).setAttribute("style","color:#aaa;background-Color:#eee");
             lastDay ++;
         }
     }else{
@@ -218,19 +226,26 @@ function getNextMonthDetial(year,month) {
         space = (42 - daysOfcurrentMonth - offset);
         for(index = 0; index<space;index++){
             id = "SD" + lastDay.toString();
+            cid = "LD" + lastDay.toString();
             document.getElementById(id).innerHTML = ( index + 1);
             document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            document.getElementById(cid).innerHTML = transformChinese(getChineseDay(year,(month+1),(index+1)).day);
+            document.getElementById(cid).setAttribute("style","color:#aaa;background-Color:#eee");
             lastDay ++;
         }
     }
 }
-
+// 获取指定年份月份的第一天是星期几
+// 返回 0-6
 function getFirstWeek(Y,M){
     var d = new Date(Y,M,1);
     var firstweek = d.getDay();
-    console.log("本月第一天为"+firstweek);
+    // console.log("本月第一天为"+firstweek);
     return firstweek;
 }
+
+//选择获取选择的年份月份 
+// 返回包含所选年份月份的对象
 function getSelectDate() {
     var selectYear = document.getElementById("selectYear");
     var selectMonth = document.getElementById("selectMonth");
@@ -248,25 +263,22 @@ function getSelectDate() {
     return selectDate;
 
 }
+
+// 所选日期发生变化后重新生成新的日历
 function DaysChange(){
-    console.log("Days has been changed");
+    // console.log("Days has been changed");
     var selectYear = getSelectDate().year;
     var selectMonth = getSelectDate().month - 1;
-    // var daysOfSelectMonth = getDaysOfMonth(selectYear,selectMonth);
-    // var offsetOfSelectMonth = getFirstWeek(selectYear,selectMonth);
-    clearDetial();
-    // showEveryDay(daysOfSelectMonth,offsetOfSelectMonth);
-    showEveryDay(selectYear,selectMonth);
-    // console.log(selectYear,selectMonth);
-    // return selectYear,selectMonth;
+    clearDetial();//清空旧日历
+    showEveryDay(selectYear,selectMonth);//根据所选年份月份生成新日历
 }
+//清空旧日历,重新生成日历表格
 function clearDetial() {
     document.getElementById('detail').innerText = '';
     createTable();
-    // console.log(typeof())
-    // console.log('clearDetial')
 }
-// 计算农历日期所需数组
+
+// 计算农历日期所需数组,固定格式,请勿修改
 var chineseDayIndex = new Array(//阴历数据
     0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
     0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
@@ -283,12 +295,6 @@ var chineseDayIndex = new Array(//阴历数据
     0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
     0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
     0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0);
-// 传入公历日期 获取农历日期
-// function getChineseDay(year,month){
-//     var chineseNum = new Array('日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十')
-//     var chineseDate = new Array('初', '十', '廿', '卅', '　')
-//     return chineseDay;
-// }
 
 function lunar_day(y) {
     var i, sum = 348
@@ -362,16 +368,21 @@ function ChineseDate(DateObject) {
     this.month = i
     this.day = offset + 1
 }
+// 计算指定日期的农历信息,data为一个Date()对象
 function getChineseDate(date) {
-    chineseDateObj = new ChineseDate(date);
+    var chineseDateObj = new ChineseDate(date);
     // console.log(chineseDateObj);
     return chineseDateObj;
 }
-// getChineseDate();
-// 函数名getChineseDay获取中文日期
-// 参数day:公历日期
+function getChineseDay(year,month,day) {
+    var date = new Date(year,month,day);
+    var chineseDayinfo = new ChineseDate(date);
+    return chineseDayinfo;
+    
+}
+// 转换为中文
 // 使用了全局数组chineseDate与chineseNum
-function getChineseDay(day) {
+function transformChinese(day) {
     var chineseNum = new Array('日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十')
     var chineseDate = new Array('初', '十', '廿', '卅', '　')
     // 农历日期
@@ -384,6 +395,7 @@ function getChineseDay(day) {
     //例如26号:26/10 = 2 即chineseDate[1]="廿" 26 % 10 = 6 即 chieseNum[6]="六" 合起来就是"廿六"
     return (chineseDay);
 }
+// 获取指定年份月份一整个月的农历日期
 function getChineseMonth(year,month) {
     var dayofmonth = getDaysOfMonth(year,month);
     var i;
@@ -392,7 +404,7 @@ function getChineseMonth(year,month) {
         var newdate = new Date(year,month,i+1);
         chineseDateList[i] = getChineseDate(newdate);
         // console.log(chineseday);
-        // console.log((month+1)+ "月"+(i+1)+"日-农历:"+chineseday.month+"月"+getChineseDay(chineseday.day));
+        // console.log((month+1)+ "月"+(i+1)+"日-农历:"+chineseday.month+"月"+transformChinese(chineseday.day));
     }
     return chineseDateList;
 }
