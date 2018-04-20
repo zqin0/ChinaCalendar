@@ -140,13 +140,25 @@ function showEveryDay(year,month){
     var chineseDayDetail = getChineseMonth(year,month);
     // index = index + 1;
     // console.log(daysOfMonth);
-    for(i=0;i<daysOfMonth;i++){
-        id ="SD" + offset.toString();
-        cid = "LD" + offset.toString();
-        document.getElementById(id).innerHTML = i + 1;
-        document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
-        offset ++;
-        // document.getElementById("id").innerText = i + 1;
+    getPrevMonthDetial(year,month);
+    if(offset == 0){
+        for (i = 0; i < daysOfMonth; i++) {
+            id = "SD" + ( offset + 7).toString();
+            cid = "LD" + (offset + 7).toString();
+            document.getElementById(id).innerHTML = i + 1;
+            document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
+            offset++;
+            // document.getElementById("id").innerText = i + 1;
+        }
+    }else{
+        for (i = 0; i < daysOfMonth; i++) {
+            id = "SD" + offset.toString();
+            cid = "LD" + offset.toString();
+            document.getElementById(id).innerHTML = i + 1;
+            document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[i].day);
+            offset++;
+            // document.getElementById("id").innerText = i + 1;
+        }
     }
     
     // for(j=0; j<daysOfMonth;j++){
@@ -156,6 +168,29 @@ function showEveryDay(year,month){
     // }
 
 }
+function getPrevMonthDetial(year,month) {
+    var index;
+    var daysOfPrevMonth;
+    var offset = getFirstWeek(year,month);
+    var firstday;
+    daysOfPrevMonth = getDaysOfMonth(year,month - 1);
+    if(month == 0){
+        firstday = 31 - offset + 1;
+    }else{
+        firstday = daysOfPrevMonth - offset + 1;
+    }
+    for(index = 0; index<offset;index++){
+        id = "SD" + index.toString();
+        document.getElementById(id).innerHTML = firstday;
+        firstday ++;
+    }
+    
+}
+
+function getNextMonthDetial(year,month) {
+    
+}
+
 function getFirstWeek(Y,M){
     var d = new Date(Y,M,1);
     var firstweek = d.getDay();
@@ -298,7 +333,7 @@ function getChineseDate(date) {
     // console.log(chineseDateObj);
     return chineseDateObj;
 }
-getChineseDate();
+// getChineseDate();
 // 函数名getChineseDay获取中文日期
 // 参数day:公历日期
 // 使用了全局数组chineseDate与chineseNum
