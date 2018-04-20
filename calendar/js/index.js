@@ -160,7 +160,7 @@ function showEveryDay(year,month){
             // document.getElementById("id").innerText = i + 1;
         }
     }
-    
+    getNextMonthDetial(year,month);
     // for(j=0; j<daysOfMonth;j++){
     //     cid = "LD" + offset.toString();
     //     document.getElementById(cid).innerHTML = getChineseDay(chineseDayDetail[j].day + 1);
@@ -179,16 +179,50 @@ function getPrevMonthDetial(year,month) {
     }else{
         firstday = daysOfPrevMonth - offset + 1;
     }
-    for(index = 0; index<offset;index++){
-        id = "SD" + index.toString();
-        document.getElementById(id).innerHTML = firstday;
-        firstday ++;
+    if(offset == 0){
+        for(index = 0; index<7;index++){
+            id = "SD" + index.toString();
+            document.getElementById(id).innerHTML = firstday - 7;
+            document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            firstday ++;
+        }
+    }else{
+        for(index = 0; index<offset;index++){
+            id = "SD" + index.toString();
+            document.getElementById(id).innerHTML = firstday;
+            document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+
+            firstday ++;
+        }
     }
     
 }
 
 function getNextMonthDetial(year,month) {
-    
+    var index;
+    var daysOfcurrentMonth;
+    var lastDay,space;
+    var offset = getFirstWeek(year,month);
+    daysOfcurrentMonth = getDaysOfMonth(year,month);
+    if(offset == 0){
+        lastDay = daysOfcurrentMonth + 7;
+        space = (42 - daysOfcurrentMonth - 7);
+        for(index = 0; index<space;index++){
+            id = "SD" + lastDay.toString();
+            document.getElementById(id).innerHTML = (index + 1);
+            document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            lastDay ++;
+        }
+    }else{
+        lastDay = daysOfcurrentMonth + offset;
+        space = (42 - daysOfcurrentMonth - offset);
+        for(index = 0; index<space;index++){
+            id = "SD" + lastDay.toString();
+            document.getElementById(id).innerHTML = ( index + 1);
+            document.getElementById(id).setAttribute("style","color:#aaa;background-Color:#eee");
+            lastDay ++;
+        }
+    }
 }
 
 function getFirstWeek(Y,M){
